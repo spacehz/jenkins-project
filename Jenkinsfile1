@@ -7,8 +7,8 @@ pipeline {
 
         // myVar = "Build number is ${env.BUILD_NUMBER}"
         // hatem = 'This is a multi-line'
-        // DB_HOST = 'localhost'
-        // DB_PORT = '5432'
+        DB_HOST = 'localhost'
+        DB_PORT = '5432'
         // PASSWORD=   'mysecretpassword'
         // SERVER_CREDS = credentials('server-creds') //firt way to to use credentials
 
