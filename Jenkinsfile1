@@ -32,8 +32,8 @@ pipeline {
         stage('Setup') {
             steps {
         sh '''
-        //   echo "server user is ${SERVER_CREDS_USR}"
-        //   echo "server password is ${SERVER_CREDS_PSW}"
+          #echo "server user is ${SERVER_CREDS_USR}"
+          #echo "server password is ${SERVER_CREDS_PSW}"
           python3 -m venv venv
           . venv/bin/activate
           pip install --upgrade pip
