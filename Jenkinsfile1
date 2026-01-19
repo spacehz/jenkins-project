@@ -5,6 +5,7 @@ pipeline {
     }
     environment {
 
+        myVar = "Build number is ${env.BUILD_NUMBER}"
 
     }
     stages {
