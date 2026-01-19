@@ -10,7 +10,7 @@ pipeline {
         // DB_HOST = 'localhost'
         // DB_PORT = '5432'
         // PASSWORD=   'mysecretpassword'
-        SERVER_CREDS = credentials('server-creds') //firt way to to use credentials
+        // SERVER_CREDS = credentials('server-creds') //firt way to to use credentials
 
 
 
@@ -18,6 +18,10 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                withCredentials([usernamePassword(credentialsId: 'server-creds', usernameVariable: 'SERVER_CREDS_USR', passwordVariable: 'SERVER_CREDS_PSW')]) {
+                  echo "server user is ${SERVER_CREDS_USR}"
+                  echo "server password is ${SERVER_CREDS_PSW}"
+                }
                 git url: 'https://github.com/spacehz/jenkins-project', branch: 'main'
                 sh "ls -ltr"
                 sh "pwd"
@@ -28,8 +32,8 @@ pipeline {
         stage('Setup') {
             steps {
         sh '''
-          echo "server user is ${SERVER_CREDS_USR}"
-          echo "server password is ${SERVER_CREDS_PSW}"
+        //   echo "server user is ${SERVER_CREDS_USR}"
+        //   echo "server password is ${SERVER_CREDS_PSW}"
           python3 -m venv venv
           . venv/bin/activate
           pip install --upgrade pip
