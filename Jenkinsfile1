@@ -5,8 +5,14 @@ pipeline {
     }
     environment {
 
-        myVar = "Build number is ${env.BUILD_NUMBER}"
-        hatem = 'This is a multi-line'
+        // myVar = "Build number is ${env.BUILD_NUMBER}"
+        // hatem = 'This is a multi-line'
+        // DB_HOST = 'localhost'
+        // DB_PORT = '5432'
+        // PASSWORD=   'mysecretpassword'
+        SERVER_CREDS = credentials('server-creds') //firt way to to use credentials
+
+
 
     }
     stages {
@@ -22,6 +28,8 @@ pipeline {
         stage('Setup') {
             steps {
         sh '''
+          echo "server user is ${SERVER_CREDS_USR}"
+          echo "server password is ${SERVER_CREDS_PSW}"
           python3 -m venv venv
           . venv/bin/activate
           pip install --upgrade pip
