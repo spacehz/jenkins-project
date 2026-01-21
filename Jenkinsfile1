@@ -1,8 +1,8 @@
 pipeline {
     agent any
-    options {
-        skipDefaultCheckout(true)
-    }
+    // options {
+    //     skipDefaultCheckout(true)
+    // }
     environment {
 
         // myVar = "Build number is ${env.BUILD_NUMBER}"
@@ -27,8 +27,8 @@ pipeline {
                 //   echo "server user is ${SERVER_CREDS_USR}"
                 //   echo "server password is ${SERVER_CREDS_PSW}"
                 // }
-                // git url: 'https://github.com/spacehz/jenkins-project', branch: 'main'
-                checkout scm 
+                git url: 'https://github.com/spacehz/jenkins-project', branch: 'main'
+                // checkout scm 
                 sh "ls -ltr"
                 sh "pwd"
                 echo "${env.BUILD_NUMBER} on ${env.EXECUTOR_NUMBER}"
