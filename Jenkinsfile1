@@ -64,8 +64,8 @@ pipeline {
         stage('Login to docker hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-creds', usernameVariable: 'username', passwordVariable: 'pwd')]) {
-                sh 'echo ${pwd} | docker login -u ${username} --password-stdin'}
-                echo 'Login successfully'
+                sh 'echo ${pwd} | docker login -u ${username} --password-stdin'
+                echo 'Login successfully'}
             }
         }
         stage('Build Docker Image')
