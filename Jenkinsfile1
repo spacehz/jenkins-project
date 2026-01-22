@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'python:3.12' // Use a specific Python version image
+            image 'jenkins/jnlp-agent-python3' // Use a specific Python version image
             label 'docker-agent'
         }
     }
