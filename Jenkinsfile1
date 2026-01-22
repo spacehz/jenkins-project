@@ -1,8 +1,10 @@
 pipeline {
-    agent any
-    // options {
-    //     skipDefaultCheckout(true)
-    // }
+    agent {
+        docker {
+            image 'python:3.12' // Use a specific Python version image
+            label 'docker-agent'
+        }
+    }
     environment {
 
         // myVar = "Build number is ${env.BUILD_NUMBER}"
