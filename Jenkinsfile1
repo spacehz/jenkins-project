@@ -1,8 +1,18 @@
 pipeline {
     agent {
-        docker {
-            image 'jenkins/jnlp-agent-python3' // Use a specific Python version image
-            label 'docker-agent'
+        kubernetes {
+            defaultContainer 'python'
+            yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: python
+    image: python:3.11-slim
+    command:
+    - cat
+    tty: true
+"""
         }
     }
     environment {
