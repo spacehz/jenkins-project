@@ -1,26 +1,28 @@
 pipeline {
   agent {
-    kubernetes {
-      yaml '''
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: python
-    image: python:3.11-slim
-    command:
-    - cat
-    tty: true
+//     kubernetes {
+//       yaml '''
+// apiVersion: v1
+// kind: Pod
+// spec:
+//   containers:
+//   - name: python
+//     image: python:3.11-slim
+//     command:
+//     - cat
+//     tty: true
 
-  - name: kaniko
-    image: gcr.io/kaniko-project/executor:latest
-    command:
-    - sleep
-    args:
-    - "infinity"
-    tty: true
-'''
-    }
+//   - name: kaniko
+//     image: gcr.io/kaniko-project/executor:latest
+//     command:
+//     - sleep
+//     args:
+//     - "infinity"
+//     tty: true
+// '''
+//     }
+    any
+
   }
 
   environment {
@@ -31,6 +33,7 @@ spec:
   stages {
 
     stage('Checkout') {
+
       steps {
         git url: 'https://github.com/spacehz/jenkins-project', branch: 'main'
         sh 'ls -ltr'
@@ -42,32 +45,27 @@ spec:
 
     stage('Setup') {
       steps {
-        container('python') {
           sh '''
             python3 -m venv venv
             . venv/bin/activate
             pip install --upgrade pip
             pip install -r requirements.txt
           '''
-        }
       }
     }
 
     stage('Test') {
       steps {
-        container('python') {
           sh '''
             . venv/bin/activate
             pytest
             whoami
           '''
-        }
       }
     }
 
     stage('Login to Docker Hub') {
       steps {
-        container('kaniko') {
           withCredentials([
             usernamePassword(
               credentialsId: 'docker-creds',
@@ -77,26 +75,21 @@ spec:
           ]) {
             sh 'echo "$PASSWORD" | docker login -u "$USERNAME" --password-stdin'
             echo 'Docker login successful'
-          }
-        }
+          }       
       }
     }
 
     stage('Build Docker Image') {
       steps {
-        container('kaniko') {
           sh 'docker build -t $IMAGE_TAG .'
           sh 'docker images'
-        }
       }
     }
 
     stage('Push Docker Image') {
       steps {
-        container('kaniko') {
           sh 'docker push $IMAGE_TAG'
           echo 'Docker image pushed successfully'
-        }
       }
     }
 
