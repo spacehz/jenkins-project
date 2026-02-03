@@ -5,6 +5,7 @@ pipeline {
   environment {
     IMAGE_NAME = 'spacehz/jenkins-flask-app'
     IMAGE_TAG  = "${IMAGE_NAME}:${env.GIT_COMMIT}"
+    kubeconfig = credentials('kubeconfig-creds-id')
   }
 
   stages {
@@ -67,6 +68,14 @@ pipeline {
       steps {
           sh 'docker push $IMAGE_TAG'
           echo 'Docker image pushed successfully'
+      }
+    }
+    stage('Deploy to staging') {
+      steps {
+          sh '''
+          kubectl set image deployment/flask-app-deployment flask-app=$IMAGE_TAG --kubeconfig=$kubeconfig -n staging
+
+          '''
       }
     }
 
