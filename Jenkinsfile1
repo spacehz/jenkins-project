@@ -84,7 +84,9 @@ pipeline {
           //     sh 'echo $KUBECONFIG'
           // }
           sh '''
-          export KUBECONFIG=$KUBECONFIG
+          ls -la $KUBECONFIG
+          chmod 644 $KUBECONFIG
+          ls -la $KUBECONFIG
           kubectl set image deployment/flask-app-deployment flask-app=$IMAGE_TAG --kubeconfig=$KUBECONFIG -n staging
           '''
       }
