@@ -5,7 +5,7 @@ pipeline {
   environment {
     IMAGE_NAME = 'spacehz/jenkins-flask-app'
     IMAGE_TAG  = "${IMAGE_NAME}:${env.GIT_COMMIT}"
-    kubeconfig = credentials('kubeconfig-creds-id')
+    KUBECONFIG = credentials('kubeconfig-creds-id')
   }
 
   stages {
@@ -78,12 +78,11 @@ pipeline {
         }
       }
       steps {
-          withCredentials([file(credentialsId: 'kubeconfig-creds-id', variable: 'KUBECONFIG')]) {
-              sh 'export KUBECONFIG=$KUBECONFIG'
-              sh 'kubectl version --client'
-              sh 'echo $KUBECONFIG'
-          }
-
+          // withCredentials([file(credentialsId: 'kubeconfig-creds-id', variable: 'KUBECONFIG')]) {
+          //     sh 'export KUBECONFIG=$KUBECONFIG'
+          //     sh 'kubectl version --client'
+          //     sh 'echo $KUBECONFIG'
+          // }
           sh '''
           export KUBECONFIG=$KUBECONFIG
           kubectl set image deployment/flask-app-deployment flask-app=$IMAGE_TAG --kubeconfig=$KUBECONFIG -n staging
