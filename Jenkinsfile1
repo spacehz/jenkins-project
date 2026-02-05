@@ -13,9 +13,6 @@ pipeline {
     stage('Checkout') {
 
       steps {
-        sh 'ls -la $KUBECONFIG'
-        sh 'chmod 644 $KUBECONFIG'
-        sh 'ls -la $KUBECONFIG'
         git url: 'https://github.com/spacehz/jenkins-project', branch: 'main'
         sh 'ls -ltr'
         sh 'pwd'
