@@ -81,6 +81,7 @@ pipeline {
           withCredentials([file(credentialsId: 'kubeconfig-creds-id', variable: 'KUBECONFIG')]) {
               sh 'export KUBECONFIG=$KUBECONFIG'
               sh 'kubectl version --client'
+              sh 'echo $KUBECONFIG'
           }
 
           // sh '''
