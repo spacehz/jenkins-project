@@ -84,7 +84,7 @@ pipeline {
           //     sh 'echo $KUBECONFIG'
           // }
           sh '''
-          ls -la $KUBECONFIG
+          // ls -la $KUBECONFIG
           // kubectl set image deployment/flask-app-deployment flask-app=$IMAGE_TAG --kubeconfig=$KUBECONFIG -n staging
           kubectl get ns
           '''
