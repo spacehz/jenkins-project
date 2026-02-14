@@ -84,11 +84,10 @@ pipeline {
               sh 'kubectl version --client'
               sh 'kubectl get nodes'
               sh 'echo $KUBECONFIG'
+              sh "kubectl set image deployment/flask-app-deployment flask-app=${IMAGE_TAG}"
+              sh "kubectl get ns"
           }
-          sh """"
-          kubectl set image deployment/flask-app-deployment flask-app=${IMAGE_TAG} 
-          kubectl get ns
-          """
+
       }
     }
 
