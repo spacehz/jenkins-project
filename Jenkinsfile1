@@ -57,19 +57,19 @@ pipeline {
       }
     }
 
-    // stage('Build Docker Image') {
-    //   steps {
-    //       sh 'docker build -t $IMAGE_TAG .'
-    //       sh 'docker images'
-    //   }
-    // }
+    stage('Build Docker Image') {
+      steps {
+          sh 'docker build -t $IMAGE_TAG .'
+          sh 'docker images'
+      }
+    }
 
-    // stage('Push Docker Image') {
-    //   steps {
-    //       sh 'docker push $IMAGE_TAG'
-    //       echo 'Docker image pushed successfully'
-    //   }
-    // }
+    stage('Push Docker Image') {
+      steps {
+          sh 'docker push $IMAGE_TAG'
+          echo 'Docker image pushed successfully'
+      }
+    }
     stage('Deploy to staging') {
        agent {
         docker {
@@ -85,29 +85,28 @@ pipeline {
               sh 'kubectl get nodes'
               sh 'echo $KUBECONFIG'
           }
-          // sh '''
-          // #ls -la $KUBECONFIG
-          // #kubectl set image deployment/flask-app-deployment flask-app=$IMAGE_TAG --kubeconfig=$KUBECONFIG -n staging
-          // kubectl get ns
-          // '''
+          sh """"
+          kubectl set image deployment/flask-app-deployment flask-app=${IMAGE_TAG} 
+          kubectl get ns
+          """
       }
     }
 
     
-      stage('Acceptance Test')
-        {
-            steps {
+      // stage('Acceptance Test')
+      //   {
+      //       steps {
 
-                script {
+      //           script {
 
-                    // def service = sh(script: "kubectl get svc flask-app-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}:{.spec.ports[0].port}'", returnStdout: true).trim()
-                    // echo "${service}"
+      //               // def service = sh(script: "kubectl get svc flask-app-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}:{.spec.ports[0].port}'", returnStdout: true).trim()
+      //               // echo "${service}"
 
-                    // sh "k6 run -e SERVICE=${service} acceptance-test.js"
-                    sh "k6 run acceptance-test.js"
-                }
-            }
-        }
+      //               // sh "k6 run -e SERVICE=${service} acceptance-test.js"
+      //               sh "k6 run acceptance-test.js"
+      //           }
+      //       }
+      //   }
 
     // stage('Deploy to EKS Cluster') { // steps { // sh "kubectl apply -f deployment.yaml" // echo "Deployed to EKS Cluster" // } // }
 
