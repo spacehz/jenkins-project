@@ -57,12 +57,12 @@ pipeline {
       }
     }
 
-    stage('Build Docker Image') {
-      steps {
-          sh 'docker build -t $IMAGE_TAG .'
-          sh 'docker images'
-      }
-    }
+    // stage('Build Docker Image') {
+    //   steps {
+    //       sh 'docker build -t $IMAGE_TAG .'
+    //       sh 'docker images'
+    //   }
+    // }
 
     // stage('Push Docker Image') {
     //   steps {
