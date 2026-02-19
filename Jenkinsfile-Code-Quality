@@ -6,6 +6,8 @@ pipeline {
                 sh 'whoami'
                 sh 'printenv'
                 sh 'ls -la'
+                sh "poetry --version"
+
             }
         }
         
