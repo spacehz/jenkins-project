@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "flask-app"
-version = "2.20.0"
+version = "0.0.0"
 description = ""
 authors = ["Hatem Zouari <zouarihatem4@gmail.com>"]
 readme = "README.md"
