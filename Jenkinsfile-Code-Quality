@@ -10,14 +10,6 @@ pipeline {
 
             }
         }
-        stage('sonar scan') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-    sh 'sonar-scanner'
-                }
-}
-            }
-        }
         
         stage('Pull Request Number') {
             when {
@@ -26,7 +18,15 @@ pipeline {
             steps {
                 echo "PR: ${CHANGE_ID}"
             }
-        }            
+        }
+        stage('SonarQube Scan') {
+            steps {
+                withSonarQubeEnv("${SONAR}") {
+                    sh "sonar-scanner"
+                }
+            }
+        }
+            
         stage('Setup') {
             steps {
                 sh "poetry install --with dev"
