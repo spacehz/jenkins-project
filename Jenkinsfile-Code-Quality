@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    tools {
-        sonarScanner 'SonarScanner' // Name from Global Tool Config
-    }
 
     stages {
         stage('environment variables') {
