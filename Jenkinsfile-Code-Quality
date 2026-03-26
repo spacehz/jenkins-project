@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    tools {
+        sonarQubeScanner 'SonarScanner'  // THIS triggers the install
+    }
+
     stages {
         stage('environment variables') {
             steps {
