@@ -22,7 +22,7 @@ pipeline {
         }
         stage('SonarQube Scan') {
             environment {
-                scannerHome = tool 'SonarScanner'  // must match your Jenkins Tools name
+                scannerHome = tool 'Sonar'  // must match your Jenkins Tools name
             }            
             steps {
                 withSonarQubeEnv("sonarqube") {
