@@ -10,6 +10,14 @@ pipeline {
 
             }
         }
+        stage('sonar scan') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+    sh 'sonar-scanner'
+                }
+}
+            }
+        }
         
         stage('Pull Request Number') {
             when {
