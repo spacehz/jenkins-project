@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     stages {
         stage('environment variables') {
             steps {
@@ -18,7 +19,26 @@ pipeline {
             steps {
                 echo "PR: ${CHANGE_ID}"
             }
-        }            
+        }
+        stage('SonarQube Scan') {
+            environment {
+                scannerHome = tool 'Sonar'  // must match your Jenkins Tools name
+            }            
+            steps {
+                withSonarQubeEnv("sonarqube") {
+                        sh """${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=flask \
+                            -Dsonar.projectName=flask \
+                            -Dsonar.projectVersion=1.0 \
+                            -Dsonar.sources=. \
+                            -Dsonar.language=py \
+                            -Dsonar.python.version=3 \
+                            -Dsonar.exclusions=**/__pycache__/**,**/.pytest_cache/**,poetry.lock
+                        """                    
+                }
+            }
+        }
+            
         stage('Setup') {
             steps {
                 sh "poetry install --with dev"
